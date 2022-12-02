@@ -1,8 +1,8 @@
+import { Credenciais } from './../../../models/credenciais';
+import { AuthService } from './../../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Credenciais } from 'src/app/models/credenciais';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,31 +11,33 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  public formLogin : FormGroup;
+  public formLogin: FormGroup;
 
-  constructor(formBuilder: FormBuilder,
+  constructor(
+    formBuilder: FormBuilder,
     private authService: AuthService,
-    private router : Router) {
-      
+    private router: Router
+  ) {
     this.formLogin = formBuilder.group({
-      email: [ "", [ Validators.required, Validators.email]],
-      senha: [ "", [Validators.required]]
+      email: ["", [Validators.required, Validators.email]],
+      senha: ["", [Validators.required]]
     });
-   }
+  }
 
   ngOnInit(): void {
   }
 
-  public signIn():void{
-    if(this.formLogin.valid){
-      const credenciais : Credenciais = this.formLogin.value;
+  public signIn(): void {
+    if(this.formLogin.valid) {
+      // PROCESSO DE AUTENTICAR
+      const credenciais: Credenciais = this.formLogin.value;
       this.authService.authenticate(credenciais).subscribe(response => {
-        alert("Bem vindo(a)!");
-        this.router.navigate(["/home"])
+        alert("Bem-vindo(a)!");
+        this.router.navigate(["/home"]);
       });
-    } else {
-      alert("Dados inválidos")
+    }
+    else {
+      alert("Dados inválidos.");
     }
   }
-
 }
