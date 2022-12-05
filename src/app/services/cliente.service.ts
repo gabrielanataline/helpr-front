@@ -12,13 +12,33 @@ export class ClienteService {
   constructor(private http: HttpClient) { }
 
 
-  public findAll(): Observable <Cliente[]> {
-   return this.http.get<Cliente[]>(`${API_CONFIG.baseUrl}/clientes`).pipe(
-    catchError(error => {
-      alert("Erro ao buscar dados de clientes");
-      console.error(error);
-      return EMPTY;
-    })
-   );
+  public findAll(): Observable<Cliente[]> {    //busca de todos os clientes 
+    return this.http.get<Cliente[]>(`${API_CONFIG.baseUrl}/clientes`).pipe(
+      catchError(error => {
+        alert("Erro ao buscar dados de clientes");
+        console.error(error);
+        return EMPTY;
+      })
+    );
+  }
+
+  public create(cliente: Cliente): Observable<Cliente> { // cria um novo cliente 
+    return this.http.post<Cliente>(`${API_CONFIG.baseUrl}/clientes`, cliente).pipe(
+      catchError(error => {
+        alert("Erro ao criar novo cliente.");
+        console.error(error);
+        return EMPTY;
+      })
+    );
+  }
+
+  public delete(id: number): Observable<Cliente> {      //deletar cliente por id 
+    return this.http.delete<Cliente>(`${API_CONFIG.baseUrl}/clientes/${id}`).pipe(
+      catchError(error => {
+        alert("Erro ao excluir cliente.");
+        console.error(error);
+        return EMPTY;
+      })
+    );
   }
 }
